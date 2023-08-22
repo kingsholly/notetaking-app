@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
-import {
-  doc,
-  setDoc,
-  addDoc,
-  collection,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import book from "../assets/five.png";
 
@@ -38,14 +31,17 @@ function Signup() {
       };
 
       await setDoc(documentRef, updatedDocData);
-      const notesref = collection(doc(db, "notes", newUser.uid), "notes");
-      const newNote = {
-        title: "New Note Title",
-        text: "This is the content of the new note.",
-        time: serverTimestamp(), // Current time
-        updatedAt: serverTimestamp(), // Initial value
-      };
-      await addDoc(notesref, newNote);
+
+      // await setDoc(doc(db, "userChats", user.uid), {});
+
+      await setDoc(doc(db, "notes", newUser.uid), {});
+      // const newNote = {
+      //   title: "New Note Title",
+      //   text: "This is the content of the new note.",
+      //   time: serverTimestamp(), // Current time
+      //   updatedAt: serverTimestamp(), // Initial value
+      // };
+      // await addDoc(notesref, newNote);
       console.log("User registered with ID:", newUser.uid);
       console.log("document written with id:");
       navigate("/dashboard");

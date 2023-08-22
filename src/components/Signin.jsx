@@ -166,7 +166,11 @@ function Signin() {
           </div>
         </div>
         <div className="w-1/2 md:block hidden">
-          <img className="rounded-2xl" src={book} alt="note-taking" />
+          <img
+            className="rounded-2xl"
+            src="https://demo.phlox.pro/agency-trend/wp-content/uploads/sites/294/2021/09/workspace2.png"
+            alt="note-taking"
+          />
         </div>
       </div>
     </section>

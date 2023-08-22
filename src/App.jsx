@@ -12,7 +12,7 @@ function App() {
   const { user } = UserAuth;
   //const navigate = useNavigate();
 
-  console.log(user);
+  // console.log(user);
   return (
     <div>
       {/* <h1 className="text-center text-3xl font-bold">

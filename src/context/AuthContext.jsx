@@ -21,7 +21,7 @@ import {
 } from "firebase/firestore";
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   const [userNotes, setUserNotes] = useState([]);
 
   const createUser = (email, password) => {
@@ -60,44 +60,27 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
-
       onSnapshot(doc(db, "users", currentUser.uid), (doc) => {
-        console.log(doc.data(), "bollocks");
+        //  console.log(doc.data(), "bollocks");
         setUser(doc.data());
-        console.log("user details are", user);
       });
-      getNotes();
     });
     return () => {
       unsubscribe();
     };
   }, []);
 
-  const getNotes = async () => {
-    const usernotesRef = collection(
-      db,
-      "notes",
-      "UmcoU8oVqsVJMycr6H8s0xBZYvs1",
-      "notes"
-    );
-    const usernotesquery = query(usernotesRef);
-
-    const querySnapshot = await getDocs(usernotesquery);
-
-    const notes = [];
-    querySnapshot.forEach((doc) => {
-      notes.push({ id: doc.id, ...doc.data() });
-    });
-
-    setUserNotes(notes);
-    console.log(userNotes);
-  };
   // useEffect(() => {
   //   onSnapshot(doc(db, "users", "vv9SZjLcPccaORBegeAqRhv1kDQ2"), (doc) => {
   //     console.log(doc.data(), "bollocks");
   //   });
-  // }, []);
+  // }, []);  \
+
+  //  {
+  //   onSnapshot(doc(db, "users", "vv9SZjLcPccaORBegeAqRhv1kDQ2"), (doc) => {
+  //     console.log(doc.data(), "bollocks");
+  //   });
+  // }
 
   return (
     <UserContext.Provider

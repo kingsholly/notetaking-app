@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import { useState } from "react";
-
+import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
 function Addnote() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -9,6 +10,29 @@ function Addnote() {
   const [Loading, setLoading] = useState(false);
   const { user, handleGoogle, addNote } = UserAuth();
   const navigate = useNavigate();
+
+  const formSubmit = async (e) => {
+    e.preventDefault();
+    setErrow("");
+    console.log(user.uid);
+    setLoading(true);
+    try {
+      const notesref = collection(doc(db, "notes", user.uid), "notes");
+      const newNote = {
+        title: title,
+        text: text,
+        time: serverTimestamp(), // Current time
+        updatedAt: serverTimestamp(), // Initial value
+      };
+      await addDoc(notesref, newNote);
+      navigate("/dashboard");
+    } catch (e) {
+      setErrow(e.message);
+      alert(e.message);
+      setLoading(false);
+      console.log(e.message, errow);
+    }
+  };
   const handleNote = async (e) => {
     e.preventDefault();
     setErrow("");
@@ -21,6 +45,7 @@ function Addnote() {
       setLoading(false);
       // alert(e.message);
       console.log(e.message, errow);
+      console.log(title, text, user.uid);
     }
   };
 
@@ -42,7 +67,7 @@ function Addnote() {
                 </Link>{" "}
               </p>
             </div>
-            <form onSubmit={handleNote} className="gap-4">
+            <form onSubmit={formSubmit} className="gap-4">
               <div className="flex flex-col py-2">
                 <input
                   onChange={(e) => setTitle(e.target.value)}
@@ -142,7 +167,10 @@ function Addnote() {
             <div className="mt-3 text-xs flex justify-between items-center">
               <p>Want to see all notes?</p>
               <button className="py-2 px-5 bg-white border rounded-xl  hover:bg-blue-500 scale-100 duration-300 ">
-                Notes
+                <Link to="/dashboard" className="underline">
+                  {" "}
+                  Dashboard
+                </Link>{" "}
               </button>
             </div>
           </div>

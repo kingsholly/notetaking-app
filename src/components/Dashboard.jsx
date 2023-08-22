@@ -1,7 +1,12 @@
 import { UserAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import Allnotes from "./allnotes";
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 function Dashboard() {
+  const [notes, setNotes] = useState([]);
+
   const { user, logout } = UserAuth();
   const Navigate = useNavigate();
   const handleLogout = async () => {
@@ -12,18 +17,40 @@ function Dashboard() {
       console.log(e.message);
     }
   };
+
+  const getNotes = async () => {
+    const querySnapshot = await getDocs(
+      collection(db, "notes", user.uid, "notes")
+    );
+    const allNotes = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    //querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    //console.log(doc.id, " => ", doc.data());
+    //console.log(uid);
+    //});
+    setNotes(allNotes);
+    console.log(allNotes);
+  };
+
+  useEffect(() => {
+    getNotes();
+  }, []);
+
   return (
-    <section className="bg-gray-500  flex ">
-      <div className="mx-auto my-3 p-4 bg-gray-100 rounded-2xl flex">
-        <div className="w-20 mt-12   ">
+    <section className="bg-yellow-500 h-screen  flex justify-center">
+      <div className="bg-gray-100 flex rounded-2xl shadow-lg w-4/5 m-20">
+        <div className="w-1/12 mt-12  ">
           <div className="items-center align-center justify-center flex flex-col">
             <Link to="/addnote" className="underline">
               {" "}
               <button className=" bg-gray-900 rounded-3xl p-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="15"
-                  height="15"
+                  width="11"
+                  height="11"
                   fill="white"
                   className="bi bi-plus-lg"
                   viewBox="0 0 16 16"
@@ -39,8 +66,8 @@ function Dashboard() {
               <button className=" bg-yellow-500 rounded-3xl p-3 mt-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="15"
-                  height="15"
+                  width="11"
+                  height="11"
                   fill="black"
                   className="bi bi-check-lg"
                   viewBox="0 0 16 16"
@@ -54,8 +81,8 @@ function Dashboard() {
               <button className=" bg-green-800 rounded-3xl p-3 mt-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="15"
-                  height="15"
+                  width="11"
+                  height="11"
                   fill="white"
                   className="bi bi-journal-text"
                   viewBox="0 0 16 16"
@@ -71,8 +98,8 @@ function Dashboard() {
               <button className=" bg-orange-400 rounded-3xl p-3 mt-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="15"
-                  height="15"
+                  width="11"
+                  height="11"
                   fill="white"
                   className="bi bi-share"
                   viewBox="0 0 16 16"
@@ -84,12 +111,21 @@ function Dashboard() {
             <p className="text-sm">Share</p>
           </div>
         </div>
-        <div className="w-40 bg-green-500 border-l border-blue-500">
+        <div className="w-1/2 border-l border-bl-500 ">
           {" "}
           <button onClick={handleLogout}>Logout</button>
           <Allnotes />
+          <p>
+            {" "}
+            {notes.map((note) => (
+              <span key={note.id}>
+                {note.title}: {note.text}{" "}
+                {note.time.seconds.toDate().toLocaleDateString()} <br />
+              </span>
+            ))}
+          </p>
         </div>
-        <div className="w-60 bg-yellow-500 ">
+        <div className="w-full bg-[#5200ff] rounded-r-xl">
           {" "}
           notes
           <h1>Account</h1>
@@ -98,7 +134,7 @@ function Dashboard() {
               {" "}
               <p>User Email: {user && user.email} </p>
               <p>User Auth : {user && user.uid}</p>
-              <p>User name: {user && user.fullname}</p>{" "}
+              <p>User name: {user && user.fullname}</p>
             </div>
           ) : (
             "Error"
