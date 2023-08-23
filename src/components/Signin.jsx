@@ -2,39 +2,33 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import { useState } from "react";
 
-import book from "../assets/Diary.png";
-
 function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errow, setErrow] = useState("");
+  //const [errow, setErrow] = useState("");
   const [Loading, setLoading] = useState(false);
   const { loginUser, Googlesignin } = UserAuth();
   const navigate = useNavigate();
   const handleSignin = async (e) => {
     e.preventDefault();
-    setErrow("");
+
     setLoading(true);
     try {
       await loginUser(email, password);
       navigate("/dashboard");
     } catch (e) {
-      setErrow(e.message);
       setLoading(false);
-      // alert(e.message);
-      console.log(e.message, errow);
+      alert("invalid details");
     }
   };
   const handleGoogle = async (e) => {
     e.preventDefault();
-    setErrow("");
+
     try {
       await Googlesignin();
       navigate("/dashboard");
     } catch (e) {
-      setErrow(e.message);
-      alert(e.message);
-      console.log(e.message);
+      alert("invalid details");
     }
   };
   return (

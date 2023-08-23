@@ -9,14 +9,14 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullname, setFullname] = useState("");
-  const [errow, setErrow] = useState("");
+  //const [errow, setErrow] = useState("");
   const [Loading, setLoading] = useState(false);
   const [uid, setUid] = useState(null);
   const { createUser, Googlesignin } = UserAuth();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrow("");
+
     setLoading(true);
     try {
       const userCredential = await createUser(email, password);
@@ -42,26 +42,21 @@ function Signup() {
       //   updatedAt: serverTimestamp(), // Initial value
       // };
       // await addDoc(notesref, newNote);
-      console.log("User registered with ID:", newUser.uid);
-      console.log("document written with id:");
+
       navigate("/dashboard");
     } catch (e) {
-      setErrow(e.message);
-      alert(e.message);
+      alert("invalid details");
       setLoading(false);
-      console.log(e.message, errow);
     }
   };
   const handleGoogle = async (e) => {
     e.preventDefault();
-    setErrow("");
+
     try {
       await Googlesignin();
       navigate("/dashboard");
     } catch (e) {
-      setErrow(e.message);
-      alert(e.message);
-      console.log(e.message);
+      alert("invalid details");
     }
   };
   return (

@@ -3,12 +3,14 @@ import { UserAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
+
+import Alleditor from "./allEditor";
 function Addnote() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [errow, setErrow] = useState("");
   const [Loading, setLoading] = useState(false);
-  const { user, handleGoogle, addNote } = UserAuth();
+  const { user, handleGoogle } = UserAuth();
   const navigate = useNavigate();
 
   const formSubmit = async (e) => {
@@ -33,21 +35,21 @@ function Addnote() {
       console.log(e.message, errow);
     }
   };
-  const handleNote = async (e) => {
-    e.preventDefault();
-    setErrow("");
-    setLoading(true);
-    try {
-      await addNote(title, text, user.uid);
-      navigate("/dashboard");
-    } catch (e) {
-      setErrow(e.message);
-      setLoading(false);
-      // alert(e.message);
-      console.log(e.message, errow);
-      console.log(title, text, user.uid);
-    }
-  };
+  // const handleNote = async (e) => {
+  //   e.preventDefault();
+  //   setErrow("");
+  //   setLoading(true);
+  //   try {
+  //     await addNote(title, text, user.uid);
+  //     navigate("/dashboard");
+  //   } catch (e) {
+  //     setErrow(e.message);
+  //     setLoading(false);
+  //     // alert(e.message);
+  //     console.log(e.message, errow);
+  //     console.log(title, text, user.uid);
+  //   }
+  // };
 
   return (
     <div>
@@ -140,6 +142,7 @@ function Addnote() {
                 )}
               </button>
             </form>
+            <Alleditor />
             <div className="mt-10 grid grid-cols-3 items-center text-gray-400">
               <hr className="border-gray-400" />
               <p className="text-center text-xs">OR</p>

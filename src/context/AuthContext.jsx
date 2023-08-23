@@ -16,13 +16,10 @@ import {
   setDoc,
   addDoc,
   serverTimestamp,
-  getDocs,
-  query,
 } from "firebase/firestore";
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState({});
-  const [userNotes, setUserNotes] = useState([]);
+  const [user, setUser] = useState(null);
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -81,6 +78,31 @@ export const AuthContextProvider = ({ children }) => {
   //     console.log(doc.data(), "bollocks");
   //   });
   // }
+
+  // useEffect(() => {
+  //   const getNotes = async () => {
+  //     if (!user || !user.uid) {
+  //       // Handle the case where user or user.uid is undefined
+  //       console.log(user.uid);
+  //       return;
+  //     }
+
+  //     const querySnapshot = await getDocs(
+  //       collection(db, "notes", "mLqOysV86KT8oJsibfi8c3tklCo2", "notes")
+  //     );
+  //     const allNotes = querySnapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //       createdAt: doc.data().time.toDate().toDateString(),
+  //       //time: formatDate(doc.)
+  //     }));
+
+  //     setUserNotes(allNotes);
+  //     console.log(userNotes);
+  //   };
+
+  //   getNotes();
+  // }, []);
 
   return (
     <UserContext.Provider
