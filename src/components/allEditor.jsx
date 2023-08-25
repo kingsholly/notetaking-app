@@ -6,13 +6,14 @@ import { useQuill } from "react-quilljs";
 
 import "quill/dist/quill.snow.css";
 import { useEffect } from "react";
-function Alleditor() {
+function Alleditor({ handleText }) {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
       ["bold", "underline", "italic"],
 
       [{ list: "ordered" }],
+      [{ color: [] }],
     ],
   };
   const placeholder = "Compose an epic Note...";
@@ -26,13 +27,15 @@ function Alleditor() {
         // console.log(quill.getContents()); // Get delta contents
         // console.log(quill.root.innerHTML); // Get innerHTML using quill
         // console.log(quillRef.current.firstChild.innerHTML); // Get innerHTML using quillRef
+        //handleText.setText(quillRef.current.firstChild.innerHTML);
+        handleText(quillRef.current.firstChild.innerHTML);
       });
     }
   }, [quill]);
   return (
     <div>
       {/* {<div> {console.log(editorNote.text)}</div>} */}
-      <div style={{ width: 600, height: 300 }}>
+      <div style={{ height: 300 }}>
         <div ref={quillRef} />
       </div>
     </div>

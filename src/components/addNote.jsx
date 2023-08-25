@@ -79,14 +79,14 @@ function Addnote() {
                 />
               </div>
               <div className="flex flex-col py-2">
-                <textarea
+                <Alleditor handleText={setText} />
+                {/* <textarea
                   onChange={(e) => setText(e.target.value)}
                   className="rounded-xl border p-2 mt-8"
                   type="text"
                   placeholder="Note content"
                   rows="10"
-                  cols="100"
-                />
+                  cols="100" */}
               </div>
 
               <button
@@ -142,7 +142,7 @@ function Addnote() {
                 )}
               </button>
             </form>
-            <Alleditor />
+
             <div className="mt-10 grid grid-cols-3 items-center text-gray-400">
               <hr className="border-gray-400" />
               <p className="text-center text-xs">OR</p>
