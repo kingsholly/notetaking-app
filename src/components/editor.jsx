@@ -6,7 +6,7 @@ import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
 function Editor({ editorNote }) {
-  const [notey, setNotey] = useState(editorNote.text);
+  const [notey, setNotey] = useState(null);
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -21,21 +21,25 @@ function Editor({ editorNote }) {
   //setNotey(editorNote.text);
   useEffect(() => {
     if (quill) {
-      quill.clipboard.dangerouslyPasteHTML(notey);
-      console.log("notey1", notey);
+      quill.clipboard.dangerouslyPasteHTML(editorNote.text);
+      // console.log("notey1", notey);
       quill.on("text-change", () => {
         //console.log("Text change!");
-        console.log(quill.getText()); // Get text only
+        // console.log(quill.getText()); // Get text only
         // console.log(quill.getContents()); // Get delta contents
         // console.log(quill.root.innerHTML); // Get innerHTML using quill
         // console.log(quillRef.current.firstChild.innerHTML); // Get innerHTML using quillRef
         //editorNote.setNote.text(quill.root.innerHTML);
         //console.log(setNote.te);
-        setNotey(quill.getText());
-        console.log("notey", notey);
+        //setNotey(quill.getText());
+        //console.log("notey", notey);
+        setNotey(quill.root.innerHTML);
       });
     }
-  }, [quill]);
+  }, [quill, editorNote.text]);
+  {
+    console.log("notey", notey);
+  }
   return (
     <div>
       {/* {<div> {console.log(editorNote.text)}</div>} */}
