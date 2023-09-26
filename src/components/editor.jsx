@@ -2,19 +2,14 @@
 import "../Editor.css";
 import { useQuill } from "react-quilljs";
 import { UserAuth } from "../context/AuthContext";
-import {
-  collection,
-  doc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import Swal from "sweetalert2";
 // or const { useQuill } = require('react-quilljs');
 
 import "quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+//import { Navigate } from "react-router-dom";
 function Editor({ editorNote, noteId }) {
   const { user } = UserAuth();
   const [notey, setNotey] = useState(null);
@@ -69,6 +64,7 @@ function Editor({ editorNote, noteId }) {
       };
       await updateDoc(notesref, newNote);
       //Navigate("/dashboard");
+      setLoading("");
     } catch (error) {
       console.error("Error updating note content", error);
     }

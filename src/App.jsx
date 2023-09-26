@@ -2,10 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
+import NoteDetail from "./components/NoteDetail";
 import Addnote from "./components/addNote";
 import { AuthContextProvider } from "./context/AuthContext";
 
-import { useNavigate } from "react-router-dom";
 import { UserAuth } from "./context/AuthContext";
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/addnote" element={<Addnote />} />
+          <Route path="/notes/:noteId" element={<NoteDetail />} />
         </Routes>
       </AuthContextProvider>
     </div>

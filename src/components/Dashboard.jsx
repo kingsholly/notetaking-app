@@ -11,7 +11,6 @@ import {
   deleteDoc,
   query,
   doc,
-  onSnapshot,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import dayjs from "dayjs";
@@ -114,8 +113,8 @@ function Dashboard() {
 
   return (
     <section className="bg-yellow-500 h-screen  flex justify-center">
-      <div className="bg-gray-100 flex rounded-2xl shadow-lg w-4/5 m-20">
-        <div className="w-1/12 mt-20  ">
+      <div className="bg-gray-100 flex rounded-2xl shadow-lg w-4/5 md:m-20">
+        <div className="w-1/12 mt-20  lg:block hidden ">
           <div className="items-center align-center justify-center flex flex-col">
             <Link to="/addnote" className="underline">
               {" "}
@@ -209,7 +208,7 @@ function Dashboard() {
             <p className="text-sm">Logout</p>
           </div>
         </div>
-        <div className="w-7/12 border-l border-bl-500 p-3 overflow-y-auto ">
+        <div className="md:w-7/12 border-l border-bl-500 p-3 overflow-y-auto ">
           {" "}
           <div className="my-5">
             {/* <Link to="/dashboard" className="text-sm">
@@ -238,7 +237,30 @@ function Dashboard() {
                   <div className="mr-5 text-center">
                     {" "}
                     {Number(dayjs.unix(note.time).format("DD")) + 1} <br></br>
-                    {dayjs.unix(note.time).format("MMMM")}{" "}
+                    {dayjs.unix(note.time).format("MMMM")} <br />
+                    <Link
+                      to={`/notes/${note.id}`}
+                      className="underline"
+                      onClick={() => consoleInfo(note.id)}
+                    >
+                      {" "}
+                      <button className="rounded-3xl p-3">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          fill="black"
+                          className="bi bi-pencil-square"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                          <path
+                            fillRule="evenodd"
+                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                          />
+                        </svg>
+                      </button>
+                    </Link>{" "}
                   </div>
                   <div>
                     {" "}
@@ -261,7 +283,7 @@ function Dashboard() {
             </div>
           )}
         </div>
-        <div className="w-full bg-[#5200ff] rounded-r-xl text-white p-8">
+        <div className="w-full bg-[#5200ff] rounded-r-xl text-white p-8  lg:block hidden">
           {" "}
           {/* {user ? (
             <div>
